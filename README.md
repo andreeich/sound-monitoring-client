@@ -1,54 +1,115 @@
-# React + TypeScript + Vite
+# Sound Monitoring Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Це клієнтська частина системи моніторингу звукового забруднення, розроблена як веб-додаток для первинних пристроїв (телефонів). Додаток записує звук, порівнює його з еталонними сигналами, відправляє дані через MQTT та відображає результати на мапі.
 
-Currently, two official plugins are available:
+## Особливості
+- Запис звуку через Web Audio API.
+- Аналіз звуку з використанням FFT для порівняння з еталонами.
+- Передача сповіщень через MQTT (QoS 1).
+- Інтерфейс для налаштування (інтервал, тривалість, поріг подібності).
+- Відображення результатів у таблиці та на мапі (Leaflet).
+- Сучасний UI з shadcn/ui та Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Технології
+- **React.js**: Для створення UI.
+- **TypeScript**: Для типізації.
+- **Vite**: Для швидкої розробки.
+- **shadcn/ui**: UI-компоненти на основі Tailwind CSS.
+- **Tailwind CSS**: Для стилізації.
+- **mqtt.js**: Для роботи з MQTT.
+- **Leaflet**: Для відображення мапи.
+- **fft-js**: Для аналізу звуку.
 
-## Expanding the ESLint configuration
+## Вимоги
+- Node.js (>= 18)
+- MQTT-брокер (напр., Mosquitto на `ws://localhost:9001`)
+- Серверна частина (API на `http://localhost:8000`)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Структура проєкту
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+sound-monitoring-client/
+├── public/
+│   └── reference_sounds/         # Еталонні звуки (наприклад, drone.mp3)
+├── src/
+│   ├── components/
+│   │   ├── ui/                  # Компоненти shadcn/ui
+│   │   ├── AudioRecorder.tsx    # Запис звуку
+│   │   ├── SettingsPanel.tsx    # Налаштування
+│   │   ├── ResultsDisplay.tsx   # Результати
+│   │   └── MapDisplay.tsx       # Мапа
+│   ├── utils/
+│   │   ├── audioAnalysis.ts     # Аналіз звуку
+│   │   └── mqttClient.ts        # MQTT-клієнт
+│   ├── App.tsx                  # Головний компонент
+│   ├── main.tsx                 # Точка входу
+│   ├── index.css                # Глобальні стилі
+│   └── types.ts                 # Типи
+├── tailwind.config.js           # Конфігурація Tailwind
+├── vite.config.ts               # Конфігурація Vite
+├── tsconfig.json                # Конфігурація TypeScript
+├── package.json                 # Залежності
+├── .env                         # Змінні оточення
+└── README.md                    # Документація
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Встановлення
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+1. **Клонуйте репозиторій**:
+   ```bash
+   git clone <repository-url>
+   cd sound-monitoring-client
+   ```
+2. Встановіть залежності:
+```bash
+npm install
 ```
+3. Створіть файл .env:
+```env
+VITE_MQTT_BROKER=ws://localhost:9001
+VITE_API_URL=http://localhost:8000
+```
+
+## Запуск
+- Запустіть у режимі розробки:
+```bash
+npm run dev
+```
+Додаток буде доступний за адресою (http://localhost:3000)[http://localhost:3000].
+- Збірка для продакшену:
+```bash
+npm run build
+```
+
+## Використання
+- Налаштування: Вкажіть інтервал запису, тривалість та поріг подібності.
+- Запис звуку: Натисніть "Почати запис" для періодичного запису.
+- Результати: Переглядайте виявлені звуки у вкладці "Результати".
+- Мапа: Переглядайте локації виявлень на мапі.
+
+## Тестування
+- Перевірка запису:
+  - Увімкніть мікрофон і почніть запис.
+  - Переконайтеся, що звук аналізується та відображається в результатах.
+- Перевірка MQTT:
+  - Відправте тестове повідомлення через сервер (див. документацію серверної частини).
+  - Перевірте, чи отримується підтвердження (ACK).
+- Перевірка мапи:
+  - Додайте кілька сповіщень із різними координатами та перевірте їх відображення.
+
+## Вирішення проблем
+- Мікрофон не працює:
+  - Перевірте дозволи для браузера.
+  - Використовуйте HTTPS для Web Audio API.
+- MQTT не підключається:
+  - Переконайтеся, що Mosquitto працює на ws://localhost:9001.
+  - Перегляньте консоль браузера для помилок.
+- Мапа не відображається:
+  - Перевірте підключення до інтернету (Leaflet використовує OpenStreetMap).
+
+## Розробка та внесок
+- Дотримуйтесь стилю коду (ESLint, Prettier).
+- Створюйте pull requests із чітким описом змін.
+
+## Ліцензія
+MIT License.

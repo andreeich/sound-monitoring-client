@@ -19,7 +19,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 				<CardTitle>Налаштування</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				<div>
+				<div className="space-y-2">
 					<Label htmlFor="interval">Інтервал запису (сек)</Label>
 					<Input
 						id="interval"
@@ -32,7 +32,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 						max={300}
 					/>
 				</div>
-				<div>
+				<div className="space-y-2">
 					<Label htmlFor="duration">Тривалість запису (сек)</Label>
 					<Input
 						id="duration"
@@ -45,7 +45,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
 						max={10}
 					/>
 				</div>
-				<div>
+				<div className="space-y-2">
 					<Label htmlFor="threshold">Поріг подібності (%)</Label>
 					<Slider
 						id="threshold"

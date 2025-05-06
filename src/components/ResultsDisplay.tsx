@@ -30,6 +30,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
 								<TableHead>Тип звуку</TableHead>
 								<TableHead>Впевненість</TableHead>
 								<TableHead>Локація</TableHead>
+								<TableHead>Сенсор</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -43,6 +44,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
 									<TableCell>
 										{result.location.latitude}, {result.location.longitude}
 									</TableCell>
+									<TableCell>{result.sensor_id}</TableCell>
 								</TableRow>
 							))}
 						</TableBody>

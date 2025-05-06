@@ -1,5 +1,5 @@
-import { Alert } from "../types";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import type { Alert } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
 	Table,
 	TableBody,
@@ -7,7 +7,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "./ui/table";
+} from "@/components/ui/table";
 
 interface ResultsDisplayProps {
 	results: Alert[];

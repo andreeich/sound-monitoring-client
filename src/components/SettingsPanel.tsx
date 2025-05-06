@@ -1,8 +1,8 @@
-import { Settings } from "../types";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { Slider } from "./ui/slider";
-import { Label } from "./ui/label";
+import type { Settings } from "@/types";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 interface SettingsPanelProps {
 	settings: Settings;

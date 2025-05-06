@@ -49,7 +49,7 @@ const App = () => {
 			setAllAlerts(data);
 		} catch (err) {
 			console.error("Error fetching alerts:", err);
-			setConnectionError("Failed to fetch alerts from server");
+			setConnectionError("Помилка при завантаженні даних");
 		}
 	}, []);
 
@@ -63,7 +63,7 @@ const App = () => {
 			setAudioError(null);
 		} catch (err) {
 			console.error("Failed to load reference audio:", err);
-			setAudioError("Unable to load reference audio");
+			setAudioError("Помилка завантаження зразку аудіо");
 		}
 	}, []);
 
@@ -79,12 +79,16 @@ const App = () => {
 				},
 				(err) => {
 					console.error("Geolocation error:", err);
-					setConnectionError("Failed to get device location; using default");
+					setConnectionError(
+						"Помилка визначення місцезнаходження. Використовуватиметься значення заумовчуванням",
+					);
 				},
 			);
 		} else {
 			console.warn("Geolocation not supported");
-			setConnectionError("Geolocation not supported; using default");
+			setConnectionError(
+				"Визначення місцезнаходження не підтримується девайсом. Використовуватиметься значення заумовчуванням",
+			);
 		}
 	}, []);
 
@@ -104,7 +108,7 @@ const App = () => {
 		});
 
 		mqttClient.on("error", (err) => {
-			setConnectionError(`MQTT connection failed: ${err.message}`);
+			setConnectionError(`Помилка MQTT підключення: ${err.message}`);
 			setConnectionStatus("Не підключено");
 		});
 
@@ -130,7 +134,7 @@ const App = () => {
 
 	const handleAudioData = async (audioBlob: Blob) => {
 		if (!referenceAudioData) {
-			setAudioError("Reference audio not loaded");
+			setAudioError("Зразок аудіо не завантажений");
 			return;
 		}
 
@@ -160,17 +164,19 @@ const App = () => {
 					fetchAlerts(); // Refresh alerts after publishing
 				} else {
 					console.warn("Cannot publish: MQTT client not connected");
-					setConnectionError("Cannot send alert: MQTT client disconnected");
+					setConnectionError(
+						"Неможливо відправити повідомлення: MQTT клієнт не підключений",
+					);
 				}
 			}
 		} catch (err) {
 			console.error("Audio analysis failed:", err);
-			setAudioError("Failed to analyze audio");
+			setAudioError("Помилки при аналізі аудіо");
 		}
 	};
 
 	return (
-		<div className="container mx-auto p-4">
+		<div className="container mx-auto p-4 min-h-screen">
 			<h1 className="text-2xl font-bold mb-4">
 				Моніторинг звукового забруднення
 			</h1>

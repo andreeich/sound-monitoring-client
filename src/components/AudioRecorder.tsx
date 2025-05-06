@@ -65,7 +65,8 @@ const AudioRecorder: React.FC<AudioRecorderProps> = ({
 			<Button
 				onClick={startRecording}
 				disabled={isRecording}
-				className={isRecording ? "bg-red-500" : "bg-green-500"}
+				className={`w-full ${isRecording ? "bg-red-500" : "bg-green-500"}`}
+				size="lg"
 			>
 				{isRecording ? (
 					<Square className="mr-2 h-4 w-4" />
